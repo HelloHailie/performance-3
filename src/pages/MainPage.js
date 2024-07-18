@@ -10,9 +10,12 @@ import main3 from "../assets/main3.jpg";
 import main1_webp from "../assets/_main1.webp";
 import main2_webp from "../assets/_main2.webp";
 import main3_webp from "../assets/_main3.webp";
-import main_items from "../assets/_main-items.webp";
-import main_parts from "../assets/_main-parts.webp";
-import main_styles from "../assets/_main-styles.webp";
+import main_items from "../assets/main-items.jpg";
+import main_parts from "../assets/main-parts.jpg";
+import main_styles from "../assets/main-styles.jpg";
+import main_items_webp from "../assets/_main-items.webp";
+import main_parts_webp from "../assets/_main-parts.webp";
+import main_styles_webp from "../assets/_main-styles.webp";
 
 function MainPage(props) {
   const imgRef1 = useRef(null);
@@ -24,7 +27,12 @@ function MainPage(props) {
     let callback = (entries, observer) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          entry.target.src = entry.target.dataset.src;
+          // entry.target.src = entry.target.dataset.src;
+          // observer.unobserve(entry.target);
+          const img = entry.target.querySelector("img");
+          const source = entry.target.querySelector("source");
+          img.src = img.dataset.src;
+          source.srcset = source.dataset.srcset;
           observer.unobserve(entry.target);
         }
       });
@@ -60,7 +68,10 @@ function MainPage(props) {
         <TwoColumns
           bgColor={"#f4f4f4"}
           columns={[
-            <img data-src={main_items} ref={imgRef1} />,
+            <picture ref={imgRef1}>
+              <source data-srcset={main_items_webp} type='image/webp' />
+              <img data-src={main_items} alt='board photo' />
+            </picture>,
             <Meta
               title={"Items"}
               content={
@@ -73,6 +84,10 @@ function MainPage(props) {
         <TwoColumns
           bgColor={"#fafafa"}
           columns={[
+            <picture ref={imgRef2}>
+              <source data-srcset={main_parts_webp} type='image/webp' />
+              <img data-src={main_parts} alt='board photo' />
+            </picture>,
             <Meta
               title={"Parts of Longboard"}
               content={
@@ -80,14 +95,16 @@ function MainPage(props) {
               }
               btnLink={"/part"}
             />,
-            <img data-src={main_parts} ref={imgRef2} />,
           ]}
           mobileReverse={true}
         />
         <TwoColumns
           bgColor={"#f4f4f4"}
           columns={[
-            <img data-src={main_styles} ref={imgRef3} />,
+            <picture ref={imgRef3}>
+              <source data-srcset={main_styles_webp} type='image/webp' />
+              <img data-src={main_styles} alt='board photo' />
+            </picture>,
             <Meta
               title={"Riding Styles"}
               content={
