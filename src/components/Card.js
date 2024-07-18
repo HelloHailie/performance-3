@@ -8,7 +8,10 @@ function Card(props) {
     let callback = (entries, observer) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          entry.target.src = entry.target.dataset.src;
+          const img = entry.target.querySelector("img");
+          const source = entry.target.querySelector("source");
+          img.src = img.dataset.src;
+          source.srcset = source.dataset.srcset;
           observer.unobserve(entry.target);
         }
       });
@@ -23,8 +26,11 @@ function Card(props) {
   }, [props.image]);
 
   return (
-    <div className='Card text-center'>
-      <img data-src={props.image} ref={imgRef} />
+    <div className='Card text-center' ref={imgRef}>
+      <picture>
+        <source data-srcset={props.webp} type='image/webp' />
+        <img data-src={props.image} alt='board photo' />
+      </picture>
       <div className='p-5 font-semibold text-gray-700 text-xl md:text-lg lg:text-xl keep-all'>
         {props.children}
       </div>
